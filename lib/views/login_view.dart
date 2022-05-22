@@ -70,10 +70,26 @@ class _LoginViewState extends State<LoginView> {
                 );
               } on FirebaseAuthException catch (e) {
                 if (e.code == 'user-not-found') {
-                  devtools.log('pengguna tidak ditemukan');
+                  await showErrorDialog(
+                    context,
+                    'Pengguna tidak ditemukan',
+                  );
                 } else if (e.code == 'wrong-password') {
-                  devtools.log('password salah');
+                  await showErrorDialog(
+                    context,
+                    'email atau password salah',
+                  );
+                } else {
+                  await showErrorDialog(
+                    context,
+                    'Error: ${e.code}',
+                  );
                 }
+              } catch (e) {
+                await showErrorDialog(
+                  context,
+                  e.toString(),
+                );
               }
             },
             child: const Text('MASUK'),
@@ -91,4 +107,26 @@ class _LoginViewState extends State<LoginView> {
       ),
     );
   }
+}
+
+Future<void> showErrorDialog(
+  BuildContext context,
+  String text,
+) {
+  return showDialog(
+    context: context,
+    builder: (context) {
+      return AlertDialog(
+          title: const Text('Terjadi kesalahan'),
+          content: Text(text),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              child: const Text('OK'),
+            )
+          ]);
+    },
+  );
 }
