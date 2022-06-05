@@ -43,7 +43,7 @@ class _LoginViewState extends State<LoginView> {
             autocorrect: false,
             keyboardType: TextInputType.emailAddress,
             decoration: const InputDecoration(
-              hintText: ' Ketik email anda disini',
+              hintText: ' Tulis email anda disini',
             ),
           ),
           TextField(
